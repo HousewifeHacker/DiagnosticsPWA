@@ -1,25 +1,41 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Redirect,
+  Route
+} from "react-router-dom";
+
+import SideNav from './layout/nav';
+
+import SysData from './sysdata';
+import SysDiagnostics from './sysdiagnostics';
+import SysState from './sysstate';
+
+const links: LinkInfo[] = [
+  { text: 'System Data', path: '/sysdata' },
+  { text: 'System Diagnostics', path: '/sysdiagnostics' },
+  { text: 'System State', path: '/sysstate' }
+]
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <SideNav links={links} />
+      <Switch>
+        <Redirect exact from="/" to="/sysdata" />
+        <Route path="/sysdata">
+          <SysData />
+        </Route>
+        <Route path="/sysdiagnostics">
+          <SysDiagnostics />
+        </Route>
+        <Route path="/sysstate">
+          <SysState />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 
